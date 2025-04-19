@@ -1,0 +1,52 @@
+import casa.*
+import cosas.*
+
+describe "Casa de Pepe y Julian" {
+
+  test "Hacer que compre heladera, cama y plancha" {
+    cuentaCorriente.saldo(30000) // Le paso 30000 para que pase el test porque inicialice el saldo en 0
+    casaDePepeYJulian.comprar(heladera)
+    casaDePepeYJulian.comprar(cama)
+    casaDePepeYJulian.comprar(plancha)
+    assert.equals([heladera, cama, plancha], casaDePepeYJulian.compras())
+    assert.equals(3, casaDePepeYJulian.cantidadDeCosasCompradas())
+    assert.that(casaDePepeYJulian.tieneAlgun(electrodomestico))
+    assert.that(casaDePepeYJulian.tieneAlgun(mueble))
+    assert.notThat(casaDePepeYJulian.tieneAlgun(comida))
+    assert.that(casaDePepeYJulian.vieneDeComprar(electrodomestico))
+    assert.notThat(casaDePepeYJulian.vieneDeComprar(mueble))
+    assert.that(casaDePepeYJulian.esDerrochona())
+    assert.equals([heladera, plancha], casaDePepeYJulian.comprados(electrodomestico))
+    assert.equals([cama], casaDePepeYJulian.comprados(mueble))
+    assert.equals([], casaDePepeYJulian.comprados(comida))
+    assert.notThat(casaDePepeYJulian.malaEpoca())
+    assert.equals([tiraDeAsado, paqueteDeFideos], casaDePepeYJulian.queFaltaComprar([tiraDeAsado, plancha, paqueteDeFideos]))
+    assert.that(casaDePepeYJulian.faltaComida())
+    assert.equals(#{electrodomestico, mueble}, casaDePepeYJulian.categoríasCompradas())
+  }
+
+}
+
+describe "Cuenta con gastos" {
+  test "Cuenta con un saldo de 500 pesos y 20 pesos de costo por operación" {
+    cuentaGasto.saldo(500)
+    cuentaGasto.costoPorOperacion(20)
+    cuentaGasto.depositar(1000)
+    assert.equals(1480, cuentaGasto.saldo())
+    cuentaGasto.extraer(30)
+    assert.equals(1450, cuentaGasto.saldo())
+    assert.throwsException({cuentaGasto.depositar(2000)})
+    assert.equals(1450, cuentaGasto.saldo())
+    cuentaGasto.extraer(2000)
+    assert.equals(-550, cuentaGasto.saldo())
+  }
+}
+
+describe "Caso de prueba de cuenta despues de compra" {
+  test "La cuenta corriente se actualiza después de realizar compras" {
+    cuentaCorriente.saldo(1000)
+    casaDePepeYJulian.comprar(tiraDeAsado)
+    casaDePepeYJulian.comprar(paqueteDeFideos)
+    assert.equals(600, cuentaCorriente.saldo())
+  }
+}
