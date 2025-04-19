@@ -9,8 +9,8 @@ object casaDePepeYJulian {
       return compras
     }
     method comprar(cosa){
-      compras.add(cosa)
       cuenta.extraer(cosa.precio())
+      compras.add(cosa)
     }
 
     method cantidadDeCosasCompradas() {
@@ -23,7 +23,6 @@ object casaDePepeYJulian {
 
     method vieneDeComprar(categoria) {
       return compras.last().categoria() == categoria 
-      //indica si la _última_ cosa que se compró es de la categoría indicada.
     }
     
     method esDerrochona(){
@@ -48,7 +47,7 @@ object casaDePepeYJulian {
 
     method faltaComida() {
       return compras.filter({compra => compra.categoria() == categoriaComida}).size() < 2 
-      // return self.comprados(comida) < 2 (uso un metodo ya definido)
+// O  return self.comprados(comida) < 2 (uso un metodo ya definido)
     }
 
     method categoríasCompradas(){
